@@ -14,14 +14,15 @@
 
 int		ft_atoi(const char *str)
 {
-	int i;
-	int res;
-	int neg;
+	int	res;
+	int	neg;
+	int	i;
 
 	res = 0;
 	neg = 1;
 	i = 0;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\f' || str[i] == '\n' || str[i] == '\v' || str[i] == '\r'))
+	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\f'
+						|| str[i] == '\n' || str[i] == '\v' || str[i] == '\r'))
 		i++;
 	if (str[i] == '-')
 		neg = -1;
