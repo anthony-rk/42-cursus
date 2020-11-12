@@ -12,66 +12,32 @@
 
 #include "libft.h"
 
-static unsigned int in_set(char c, char const *set)
-{
-	while (*set)
-	{
-		if (*set == c)
-			return (1);
-		set++;
-	}
-	return (0);
-}
-
-static int get_left_buffer(char const *s1, char const *set)
+static int	get_left_buffer(char const *s1, char const *set)
 {
 	int		left_buffer;
+	int		i;
 
 	left_buffer = 0;
-
-
+	i = 0;
 	while (set[i] && s1[i])
 	{
 		if (s1[left_buffer] == '\0')
-			return (0);
-		if (*left_ptr == set[i++])
+			return (-1);
+		if (s1[left_buffer] == set[i++])
 		{
-			left_ptr++;
 			left_buffer++;
 			i = 0;
 		}
 	}
-
 	return (left_buffer);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+static int	get_right_buffer(char const *s1, char const *set)
 {
-	char			*out;
-	char const		*left_ptr;
-	unsigned long	i;
-	int				left_buffer;
-	int				right_buffer;
-	int				len;
+	int		right_buffer;
+	int		i;
+	int		len;
 
-	left_ptr = s1;
-	i = 0;
-	left_buffer = 0;
-	while (set[i] && s1[i])
-	{
-		if (s1[left_buffer] == '\0')
-		{
-			out = (char *)malloc(sizeof(char) * (1));
-			out[0] = '\0';
-			return (out);
-		}
-		if (*left_ptr == set[i++])
-		{
-			left_ptr++;
-			left_buffer++;
-			i = 0;
-		}
-	}
 	len = ft_strlen(s1) - 1;
 	right_buffer = 0;
 	i = 0;
@@ -84,13 +50,39 @@ char	*ft_strtrim(char const *s1, char const *set)
 			i = 0;
 		}
 	}
-	out = (char *)malloc(sizeof(char) * (ft_strlen(s1) - left_buffer - right_buffer + 1));
+	return (right_buffer);
+}
+
+static char	*get_empty_string(void)
+{
+	char *out;
+
+	out = (char *)malloc(sizeof(char) * (1));
+	out[0] = '\0';
+	return (out);
+}
+
+char		*ft_strtrim(char const *s1, char const *set)
+{
+	char			*out;
+	unsigned long	i;
+	int				lft_buf;
+	int				rt_buf;
+
+	if (!s1 || !set)
+		return (NULL);
+	i = 0;
+	lft_buf = get_left_buffer(s1, set);
+	if (lft_buf == -1)
+		return (get_empty_string());
+	rt_buf = get_right_buffer(s1, set);
+	out = (char *)malloc(sizeof(char) * (ft_strlen(s1) - lft_buf - rt_buf + 1));
 	if (out != NULL)
 	{
 		i = 0;
-		while (i < ft_strlen(s1) - left_buffer - right_buffer)
+		while (i < ft_strlen(s1) - lft_buf - rt_buf)
 		{
-			out[i] = s1[i + left_buffer];
+			out[i] = s1[i + lft_buf];
 			i++;
 		}
 		out[i] = '\0';
