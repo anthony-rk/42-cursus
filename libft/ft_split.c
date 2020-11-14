@@ -47,9 +47,19 @@ static unsigned int			get_next_word_len(const char *s, char c)
 	return (i);
 }
 
+static unsigned int			skip_char(char const *s, char c)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (s[i] == c)
+		i++;
+	return (i);
+}
+
 char						**ft_split(char const *s, char c)
 {
-	char			**split_result;
+	char			**res;
 	unsigned int	num_strings;
 	unsigned int	i;
 	unsigned int	next_str_len;
@@ -58,24 +68,20 @@ char						**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	num_strings = get_num_words(s, c);
-	split_result = (char **)malloc(sizeof(char *) * (num_strings + 1));
-	if (!split_result)
+	if (!(res = (char **)malloc(sizeof(char *) * (num_strings + 1))))
 		return (NULL);
 	i = 0;
 	next_str_len = 0;
 	next_str = (char *)s;
 	while (i < num_strings)
 	{
-		while (*next_str == c)
-			next_str++;
+		next_str += skip_char(next_str, c);
 		next_str_len = get_next_word_len(next_str, c);
-		split_result[i] = (char *)malloc(sizeof(char) * (next_str_len + 1));
-		if (!split_result[i])
+		if (!(res[i] = (char *)malloc(sizeof(char) * (next_str_len + 1))))
 			return (NULL);
-		ft_strlcpy(split_result[i], next_str, next_str_len + 1);
-		i++;
+		ft_strlcpy(res[i++], next_str, next_str_len + 1);
 		next_str += next_str_len + 1;
 	}
-	split_result[i] = NULL;
-	return (&*split_result);
+	res[i] = NULL;
+	return (&*res);
 }
