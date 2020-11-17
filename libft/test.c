@@ -16,11 +16,30 @@
 
 #include <ctype.h>
 #include <stdio.h>
-#include "libft.h"
 #include <assert.h> 
+#include <stddef.h>
+
+#include "libft.h"
+#include "test_part_2.c"
+
+static char		ft_test_for_ft_strmapi(unsigned int i, char c)
+{
+	c = c + i;
+	return (c);
+}
+
 
 int		main(void)
 {
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+				// PART 1 TESTS //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+
+
 // ----------------------------------------------------- //
 	// Tests for ft_strlen
 
@@ -194,6 +213,7 @@ int		main(void)
 
 // ----------------------------------------------------- //
     // Test for ft_bzero
+
 	char input_ft_bzero[15] = "Hello there!";
 	char input_bzero[15] = "Hello there!";
 
@@ -213,6 +233,7 @@ int		main(void)
 
 // ----------------------------------------------------- //
     // Test for ft_memcpy
+
 	char memcpy_src[15] = "Hello there!";
 	char memcpy_dst[15] = "xxxxxxxxxxxx";
 
@@ -228,9 +249,9 @@ int		main(void)
 	// printf("%s\n", memcpy_result);
 
 
-
 // ----------------------------------------------------- //
     // Test for ft_memccpy
+
 	// Test 1 (return xx)
 	char memccpy_src[15] = "Hello there!";
 	char memccpy_dst[15] = "xxxxxxxxxxxx";
@@ -268,6 +289,7 @@ int		main(void)
 
 // ----------------------------------------------------- //
 	// Test for ft_memchr
+
 	// Test 1 (finds c and return a pointer to c)
 	char memchr_src[15] = "Hello there!";
 
@@ -320,7 +342,8 @@ int		main(void)
 	// printf("%c\n", memchr_result3[1]);
 
 // ----------------------------------------------------- //
-    // Test for ft_memmove
+    // Tests for ft_memmove
+
 	char str_memmove_src[15] = "Hello there!";
 	char str_memmove_dst[15] = "xxxxxxxxxxxx";
 
@@ -334,6 +357,7 @@ int		main(void)
 
 // ----------------------------------------------------- //
     // Test for ft_memcmp
+
 	// Test 1 (return -13)
     const char *ft_memcmp_str1 = "Hello World!";
     const char *ft_memcmp_str2 = "Hello World.";
@@ -377,23 +401,489 @@ int		main(void)
 	// printf("%i\n", memcmp_result4);
 	// printf("%i\n", ft_memcmp_result4);
 // ----------------------------------------------------- //
+    // Test for ft_strchr
+
+	char strchr_src[15] = "Hello there!";
+	char ft_strchr_src[15] = "Hello there!";
+
+	charToFind = 'o';
+
+	char* strchr_result = strchr(strchr_src, charToFind);
+    char* ft_strchr_result = ft_strchr(ft_strchr_src, charToFind);
+
+	counter = 0;
+	while (counter < 7)
+	{
+		assert(strchr_result[counter] == ft_strchr_result[counter]);
+		counter++;
+	}
+
+	// printf("%s\n", ft_strchr_result);
+	// printf("%s\n", strchr_result);
+	
+
+// ----------------------------------------------------- //
+    // Tests for ft_strrchr
+
+	char strrchr_src[15] = "Hello there!";
+	char ft_strrchr_src[15] = "Hello there!";
+
+	charToFind = 'e';
+
+	char* strrchr_result = strrchr(strrchr_src, charToFind);
+    char* ft_strrchr_result = ft_strrchr(ft_strrchr_src, charToFind);
+
+	counter = 0;
+	while (counter < 2)
+	{
+		assert(strrchr_result[counter] == ft_strrchr_result[counter]);
+		counter++;
+	}
+
+	// printf("%s\n", ft_strrchr_result);
+	// printf("%s\n", strrchr_result);
 	
 
 
+// ----------------------------------------------------- //
+	// Tests for ft_strnstr
 
-//     // TESTS FOR ADDITIONAL FUNCTIONS // 
-//         // TESTS FOR ADDITIONAL FUNCTIONS // 
-//     		    // TESTS FOR ADDITIONAL FUNCTIONS // 
-//         // TESTS FOR ADDITIONAL FUNCTIONS // 
-//     // TESTS FOR ADDITIONAL FUNCTIONS // 
+	char strnstr_src[15] = "Hello there!";
+	char ft_strnstr_src[15] = "Hello there!";
 
-//     // Test for ft_putchar
-//  //    char input_ft_putchar;
-// 	// input_ft_putchar = '4';
+	char* strnstr_result = strnstr(strnstr_src, "there", 12);
+    char* ft_strnstr_result = ft_strnstr(ft_strnstr_src, "there", 12);
 
-// 	// printf("\nTest for ft_putchar: \n\tft_putchar(\'4\') = \n");
-// 	// ft_putchar(input_ft_putchar);
-// 	// ft_putchar('\n');
+	counter = 0;
+	while (counter < 6)
+	{
+		assert(strnstr_result[counter] == ft_strnstr_result[counter]);
+		counter++;
+	}
+
+	// printf("%s\n", ft_strnstr_result);
+	// printf("%s\n", strnstr_result);
+	
+
+	// Test 2 (should not work as len stops before "to" is fully found)
+	char strnstr_src2[20] = "Hello to all";
+	char ft_strnstr_src2[20] = "Hello to all";
+
+	char* strnstr_result2 = strnstr(strnstr_src2, "to", 7);
+    char* ft_strnstr_result2 = ft_strnstr(ft_strnstr_src2, "to", 7);
+
+	assert(strnstr_src2[0] == ft_strnstr_src2[0]);
+
+	// printf("%s\n", ft_strnstr_result2);
+	// printf("%s\n", strnstr_result2);
+
+
+	// Test 3 
+	char strnstr_src3[20] = "Hello to all";
+	char ft_strnstr_src3[20] = "Hello to all";
+
+	char* strnstr_result3 = strnstr(strnstr_src2, "", 7);
+    char* ft_strnstr_result3 = ft_strnstr(ft_strnstr_src2, "", 7);
+
+	counter = 0;
+	while (counter < 13)
+	{
+		assert(strnstr_result3[counter] == ft_strnstr_result3[counter]);
+		counter++;
+	}
+
+	// printf("%s\n", ft_strnstr_result3);
+	// printf("%s\n", strnstr_result3);
+
+// ----------------------------------------------------- //
+	// Tests for ft_strlcat
+
+	// Test 1
+	char strlcat_src[15] = "there!";
+	char strlcat_dst[15] = "Hello ";
+
+	char ft_strlcat_src[15] = "there!";
+	char ft_strlcat_dst[15] = "Hello ";
+	
+	size_t strlcat_result = strlcat(strlcat_dst, strlcat_src, 13);
+    size_t ft_strlcat_result = ft_strlcat(ft_strlcat_dst, ft_strlcat_src, 13);
+
+	assert(strlcat_result == ft_strlcat_result);
+
+	// printf("%zu\n", strlcat_result);
+	// printf("%zu\n", ft_strlcat_result);
+
+	// Test 2
+	char strlcat_src2[15] = "bob";
+	char strlcat_dst2[15] = "cat";
+
+	char ft_strlcat_src2[15] = "bob";
+	char ft_strlcat_dst2[15] = "cat";
+
+	size_t strlcat_result2 = strlcat(strlcat_dst2, strlcat_src2, 0);
+    size_t ft_strlcat_result2 = ft_strlcat(ft_strlcat_dst2, ft_strlcat_src2, 0);
+	
+	assert(strlcat_result2 == ft_strlcat_result2);
+
+	// Test 3
+	char strlcat_src3[15] = "a";
+	char strlcat_dst3[30] = "lorem ipsum dolor sit amet";
+
+	char ft_strlcat_src3[15] = "a";
+	char ft_strlcat_dst3[30] = "lorem ipsum dolor sit amet";
+
+	size_t strlcat_result3 = strlcat(strlcat_dst3, strlcat_src3, 0);
+	size_t ft_strlcat_result3 = ft_strlcat(ft_strlcat_dst3, ft_strlcat_src3, 0);
+
+	// printf("%zu\n", strlcat_result3);
+	// printf("%zu\n", ft_strlcat_result3);
+
+	assert(strlcat_result3 == ft_strlcat_result3);
+
+// ----------------------------------------------------- //
+	// Tests for ft_strlcpy
+
+	// Test 1
+	char strlcpy_src[15] = "source";
+	char strlcpy_dst[15] = "destination";
+
+	char ft_strlcpy_src[15] = "source";
+	char ft_strlcpy_dst[15] = "destination";
+	
+	size_t strlcpy_result = strlcpy(strlcpy_dst, strlcpy_src, 6);
+    size_t ft_strlcpy_result = ft_strlcpy(ft_strlcpy_dst, ft_strlcpy_src, 6);
+
+	assert(strlcpy_result == ft_strlcpy_result);
+
+	// printf("%zu\n", strlcpy_result);
+	// printf("%zu\n", ft_strlcpy_result);
+
+	// Test 2 (dstsize = 0)
+	char strlcpy_src2[15] = "source";
+	char strlcpy_dst2[15] = "destination";
+
+	char ft_strlcpy_src2[15] = "source";
+	char ft_strlcpy_dst2[15] = "destination";
+	
+	size_t strlcpy_result2 = strlcpy(strlcpy_dst2, strlcpy_src2, 0);
+    size_t ft_strlcpy_result2 = ft_strlcpy(ft_strlcpy_dst2, ft_strlcpy_src2, 0);
+
+	assert(strlcpy_result2 == ft_strlcpy_result2);
+
+	// printf("%zu\n", strlcpy_result2);
+	// printf("%zu\n", ft_strlcpy_result2);
+
+	// Test 3 (dstsize > src size)
+	char strlcpy_src3[15] = "source";
+	char strlcpy_dst3[15] = "destination";
+
+	char ft_strlcpy_src3[15] = "source";
+	char ft_strlcpy_dst3[15] = "destination";
+	
+	size_t strlcpy_result3 = strlcpy(strlcpy_dst3, strlcpy_src3, 10);
+    size_t ft_strlcpy_result3 = ft_strlcpy(ft_strlcpy_dst2, ft_strlcpy_src2, 10);
+
+	assert(strlcpy_result3 == ft_strlcpy_result3);
+
+	// printf("%zu\n", strlcpy_result3);
+	// printf("%zu\n", ft_strlcpy_result3);
+
+	// Test 4 (dstsize < src length)
+	char strlcpy_src4[15] = "source";
+	char strlcpy_dst4[15] = "destination";
+
+	char ft_strlcpy_src4[15] = "source";
+	char ft_strlcpy_dst4[15] = "destination";
+	
+	size_t strlcpy_result4 = strlcpy(strlcpy_dst4, strlcpy_src4, 3);
+    size_t ft_strlcpy_result4 = ft_strlcpy(ft_strlcpy_dst4, ft_strlcpy_src4, 3);
+
+	assert(strlcpy_result4 == ft_strlcpy_result4);
+
+	// printf("%zu\n", strlcpy_result4);
+	// printf("%zu\n", ft_strlcpy_result4);
+
+
+
+
+
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+				// PART 2 TESTS //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+
+// ----------------------------------------------------- //
+	// Tests for ft_substr
+	// Test 1
+	char const ft_substr_input[15] = "destination";
+	char ft_substr_output[15] = "nation";
+
+    char *ft_substr_result = ft_substr(ft_substr_input, 5, 7);
+	
+	counter = 0;
+	while (counter < 7)
+	{
+		assert(ft_substr_result[counter] == ft_substr_output[counter]);
+		counter++;
+	}
+	
+	// printf("%s\n", ft_substr_result);
+
+	// Test 2
+	char const ft_substr_input2[15] = "destination";
+	char ft_substr_output2[5] = "";
+
+    char *ft_substr_result2 = ft_substr(ft_substr_input2, 5, 0);
+	
+	counter = 0;
+	while (counter < 1)
+	{
+		assert(ft_substr_result2[counter] == ft_substr_output2[counter]);
+		counter++;
+	}
+	// printf("%s\n", ft_substr_result2);
+
+	// Test 3
+	char const ft_substr_input3[15] = "destination";
+	char ft_substr_output3[15] = "destinatio";
+
+    char *ft_substr_result3 = ft_substr(ft_substr_input3, 0, 10);
+	
+	counter = 0;
+	while (counter < 10)
+	{
+		assert(ft_substr_result3[counter] == ft_substr_output3[counter]);
+		counter++;
+	}	
+	// printf("%s\n", ft_substr_result3);
+
+	// Test 4
+	char const ft_substr_input4[1] = "";
+	char ft_substr_output4[1] = "";
+
+    char *ft_substr_result4 = ft_substr(ft_substr_input4, 0, 10);
+	
+	counter = 0;
+	while (counter < 1)
+	{
+		assert(ft_substr_result4[counter] == ft_substr_output4[counter]);
+		counter++;
+	}	
+	// printf("%s\n", ft_substr_result4);
+
+// ----------------------------------------------------- //
+	// Tests for ft_strjoin
+	// Test 1
+	char const ft_strjoin_input1[15] = "12345";
+	char const ft_strjoin_input2[15] = "67890";
+	char const ft_strjoin_expected[15] = "1234567890";
+
+    char *ft_strjoin_result = ft_strjoin(ft_strjoin_input1, ft_strjoin_input2);
+	
+	counter = 0;
+	while (counter < 10)
+	{
+		assert(ft_strjoin_result[counter] == ft_strjoin_expected[counter]);
+		counter++;
+	}
+	// printf("%s\n", ft_strjoin_expected);
+	// printf("%s\n", ft_strjoin_result);
+	
+	// Test 2
+	char const ft_strjoin_input3[15] = "123";
+	char const ft_strjoin_input4[15] = "67890abc";
+	char const ft_strjoin_expected2[15] = "12367890abc";
+
+    char *ft_strjoin_result2 = ft_strjoin(ft_strjoin_input3, ft_strjoin_input4);
+	
+	counter = 0;
+	while (counter < 11)
+	{
+		assert(ft_strjoin_result2[counter] == ft_strjoin_expected2[counter]);
+		counter++;
+	}
+	// printf("%s\n", ft_strjoin_expected2);
+	// printf("%s\n", ft_strjoin_result2);
+	
+	
+// ----------------------------------------------------- //
+	// Tests for ft_strtrim
+	// Test 1
+	char const ft_strtrim_input1[9] = "  12345  ";
+	char const ft_strtrim_input2[5] = " .,\n";
+	char const ft_strtrim_expected[6] = "12345";
+
+    char *ft_strtrim_result = ft_strtrim(ft_strtrim_input1, ft_strtrim_input2);
+	
+	counter = 0;
+	while (counter < 5)
+	{
+		assert(ft_strtrim_result[counter] == ft_strtrim_expected[counter]);
+		counter++;
+	}
+
+	// printf("%s\n", ft_strtrim_result);
+	// printf("%zu\n", ft_strlen(ft_strtrim_result));
+	// printf("%s\n", ft_strtrim_expected);
+
+	assert(ft_strtrim_result[0] == ft_strtrim_expected[0]);
+
+// ----------------------------------------------------- //
+	// Tests for ft_split
+	// Test 1
+
+    char **ft_split_result = ft_split("Hello there friend!", ' ');
+	char *ft_split_expected1 = "Hello";
+
+	counter = 0;
+	while (counter < 5)
+	{
+		assert(ft_split_result[0][counter] == ft_split_expected1[counter]);
+		// printf("%c\n", ft_split_result[0][counter]);
+		counter++;
+	}
+	
+	// Test 2
+	char **ft_split_result2 = ft_split("          ", ' ');
+	// assert(!ft_split_result2[0][0]);
+	// printf("Result is: %s\n", ft_split_result2[0]);
+	
+
+	// Test 3
+	char **ft_split_result3 = ft_split("lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse", ' ');
+
+	assert(strcmp(ft_split_result3[0], "lorem") == 0);
+	assert(strcmp(ft_split_result3[1], "ipsum") == 0);
+	assert(strcmp(ft_split_result3[2], "dolor") == 0);
+	assert(strcmp(ft_split_result3[3], "sit") == 0);
+	assert(strcmp(ft_split_result3[4], "amet,") == 0);
+	assert(strcmp(ft_split_result3[5], "consectetur") == 0);
+	assert(strcmp(ft_split_result3[6], "adipiscing") == 0);
+	assert(strcmp(ft_split_result3[7], "elit.") == 0);
+	assert(strcmp(ft_split_result3[8], "Sed") == 0);
+	assert(strcmp(ft_split_result3[9], "non") == 0);
+	assert(strcmp(ft_split_result3[10], "risus.") == 0);
+	assert(strcmp(ft_split_result3[11], "Suspendisse") == 0);
+
+	// Test 4 (with ample spaces)
+	char **ft_split_result4 = ft_split("   lorem   ipsum dolor     sit amet, consectetur   adipiscing elit. Sed non risus. Suspendisse   ", ' ');
+
+	assert(strcmp(ft_split_result4[0], "lorem") == 0);
+	assert(strcmp(ft_split_result4[1], "ipsum") == 0);
+	assert(strcmp(ft_split_result4[2], "dolor") == 0);
+	assert(strcmp(ft_split_result4[3], "sit") == 0);
+	assert(strcmp(ft_split_result4[4], "amet,") == 0);
+	assert(strcmp(ft_split_result4[5], "consectetur") == 0);
+	assert(strcmp(ft_split_result4[6], "adipiscing") == 0);
+	assert(strcmp(ft_split_result4[7], "elit.") == 0);
+	assert(strcmp(ft_split_result4[8], "Sed") == 0);
+	assert(strcmp(ft_split_result4[9], "non") == 0);
+	assert(strcmp(ft_split_result4[10], "risus.") == 0);
+	assert(strcmp(ft_split_result4[11], "Suspendisse") == 0);
+
+
+
+// ----------------------------------------------------- //
+	// Tests for ft_itoa
+
+    char *ft_itoa_result = ft_itoa(12345);
+	char *ft_itoa_result2 = ft_itoa(-1);
+	char *ft_itoa_result3 = ft_itoa(1);
+	char *ft_itoa_result4 = ft_itoa(10000000);
+	char *ft_itoa_result5 = ft_itoa(-10000000);
+	char *ft_itoa_result6 = ft_itoa(0);
+	char *ft_itoa_result7 = ft_itoa(-2147483648LL);
+
+	assert(0 == ft_strncmp(ft_itoa_result, "12345", 6));
+	assert(0 == ft_strncmp(ft_itoa_result2, "-1", 2));
+	assert(0 == ft_strncmp(ft_itoa_result3, "1", 1));
+	assert(0 == ft_strncmp(ft_itoa_result4, "10000000", 9));
+	assert(0 == ft_strncmp(ft_itoa_result5, "-10000000", 10));
+	assert(0 == ft_strncmp(ft_itoa_result6, "0", 1));
+	assert(0 == ft_strncmp(ft_itoa_result7, "-2147483648LL", 11));
+
+
+	// printf("%s\n", ft_itoa_result);
+	// printf("%s\n", ft_itoa_result2);
+	// printf("%s\n", ft_itoa_result3);
+	// printf("%s\n", ft_itoa_result4);
+	// printf("%s\n", ft_itoa_result5);
+	// printf("%s\n", ft_itoa_result6);
+
+
+
+// ----------------------------------------------------- //
+	// Tests for ft_strmapi
+
+	// static unsigned int		ft_test_for_ft_strmapi(unsigned int i, char c)
+	// {
+	// 	c = c + i;
+	// 	return (c);
+	// }
+
+	char *ft_strmapi_result = ft_strmapi("hello", ft_test_for_ft_strmapi);
+	// printf("%s\n", ft_strmapi_result);
+	assert(0 == ft_strncmp(ft_strmapi_result, "hfnos", 5));
+
+
+
+// ----------------------------------------------------- //
+	// Tests for ft_putchar_fd
+
+	// ft_putchar_fd('c', 1);
+	// ft_putchar_fd('3', 1);
+
+// ----------------------------------------------------- //
+	// Tests for ft_putstr_fd
+
+	// ft_putstr_fd("Hello there", 1);
+	// ft_putstr_fd("Hello there my friend, how are you?", 1);
+	// ft_putstr_fd("   Hello there my friend,\n how are \t\tyou?", 1);
+
+// ----------------------------------------------------- //
+	// Tests for ft_putendl_fd
+
+	// ft_putendl_fd("Hello there", 1);
+	// ft_putendl_fd("Hello there", 2);
+	// ft_putendl_fd("", 1);
+	// ft_putendl_fd("lorem ipsum dolor sit amet", 1);
+
+// ----------------------------------------------------- //
+	// Tests for ft_putnbr_fd
+
+	// ft_putnbr_fd(4, 1);
+	// ft_putendl_fd("", 1);
+
+	// ft_putnbr_fd(45, 1);
+	// ft_putendl_fd("", 1);
+
+	// ft_putnbr_fd(4000, 1);
+	// ft_putendl_fd("", 1);
+
+	// ft_putnbr_fd(-45555, 1);
+	// ft_putendl_fd("", 1);
+
+	// ft_putnbr_fd(2147483647, 1);
+	// ft_putendl_fd("", 1);
+
+	// ft_putnbr_fd(-2147483648, 1);
+	// ft_putendl_fd("", 1);
+
+
+
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+				// BONUS PART TESTS //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+
+// ----------------------------------------------------- //
+	// Tests for ft_lstnew
 
 
 	return (0);
