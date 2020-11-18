@@ -12,7 +12,7 @@
 
 
 // Run below commmand to compile this test file with the libft.a library
-// gcc -o test.exe libft.a test.c
+// gcc -o test.exe libft.a test/test.c
 
 #include <ctype.h>
 #include <stdio.h>
@@ -28,6 +28,14 @@ static char		ft_test_for_ft_strmapi(unsigned int i, char c)
 	return (c);
 }
 
+static void 	ft_print_lst(t_list *n) 
+{ 
+	while (n != NULL)
+	{ 
+		printf("%s\n", n->content); 
+		n = n->next; 
+	} 
+}
 
 int		main(void)
 {
@@ -884,6 +892,56 @@ int		main(void)
 
 // ----------------------------------------------------- //
 	// Tests for ft_lstnew
+	// Test 1
+	t_list *ft_lstnew_result = ft_lstnew("I am a new list item!");
+
+	assert(ft_lstnew_result->next == NULL);
+	assert(0 == ft_strncmp(ft_lstnew_result->content, "I am a new list item!", 21));
+
+	// printf("%s\n", ft_lstnew_result->content);
+	
+	// Test 2
+	t_list *ft_lstnew_result2 = ft_lstnew("127t44ioyo34y\n\n\n\t");
+
+	assert(ft_lstnew_result2->next == NULL);
+	assert(0 == ft_strncmp(ft_lstnew_result2->content, "127t44ioyo34y\n\n\n\t", 17));
+
+	// Test 3
+	t_list *ft_lstnew_result3 = ft_lstnew(NULL);
+
+	assert(ft_lstnew_result3->next == NULL);
+	assert(ft_lstnew_result3->content == NULL);
+
+// ----------------------------------------------------- //
+	// Tests for ft_lstadd_front
+
+	// Make a list to check
+	t_list **alist;
+	t_list *new_head = ft_lstnew("0");
+	t_list *ft_lst_item1 = ft_lstnew("1");
+	t_list *ft_lst_item2 = ft_lstnew("2");
+	t_list *ft_lst_item3 = ft_lstnew("3");
+
+	ft_lst_item1->next = ft_lst_item2;
+	ft_lst_item2->next = ft_lst_item3;
+	alist = &ft_lst_item1;
+
+	// printf("Before: \n");
+	// ft_print_lst(*alist);
+
+	ft_lstadd_front(alist, new_head);
+	// printf("After: \n");
+	// ft_print_lst(*alist);
+
+	assert(0 == ft_strncmp(new_head->content, "0", 1));
+	assert(0 == ft_strncmp(new_head->next->content, "1", 1));
+	assert(0 == ft_strncmp(new_head->next->next->content, "2", 1));
+	assert(0 == ft_strncmp(new_head->next->next->next->content, "3", 1));
+
+
+
+
+
 
 
 	return (0);

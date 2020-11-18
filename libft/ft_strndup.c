@@ -14,12 +14,11 @@
 
 char	*ft_strndup(const char *s1, size_t n)
 {
-	char 	*out;
-	int 	len;
-	size_t 	i;
+	char	*out;
+	int		len;
+	size_t	i;
 
 	len = ft_strlen(s1);
-
 	out = (char *)malloc(sizeof(char) * (n + 1));
 	i = 0;
 	while (i < n)

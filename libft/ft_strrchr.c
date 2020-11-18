@@ -14,18 +14,16 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-    // loop through until find c, return a pointer to it
-    char    *ps;
-    int len;
+	char	*ps;
+	int		len;
 
-    len = ft_strlen(s);
-    ps = (char *)s;
-
-    len++; // + 1 to check for the \0 which could be the c argument
+	len = ft_strlen(s);
+	ps = (char *)s;
+	len++;
 	while (len--)
 	{
-        if (ps[len] == (char)c)
-            return ((char*)&(s)[len]);
+		if (ps[len] == (char)c)
+			return ((char*)&(s)[len]);
 	}
-    return (0);
+	return (0);
 }
