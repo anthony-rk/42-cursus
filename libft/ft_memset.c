@@ -16,15 +16,11 @@ void	*ft_memset(void *ptr, int c, size_t len)
 {
 	unsigned int	index;
 	unsigned char	*memory;
-	int				*value;
 
 	index = 0;
 	memory = ptr;
-	value = &c;
 	if (len == 0)
-	{
 		return (ptr);
-	}
 	while (index < len)
 	{
 		memory[index] = c;

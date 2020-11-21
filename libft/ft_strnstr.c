@@ -14,10 +14,10 @@
 
 char	*ft_strnstr(const char *s1, const char *s2, size_t len)
 {
-	char	*ps1;
-	char	*ps2;
-	size_t	i;
-	int		j;
+	char			*ps1;
+	char			*ps2;
+	unsigned int	i;
+	unsigned int	j;
 
 	ps1 = (char *)s1;
 	ps2 = (char *)s2;

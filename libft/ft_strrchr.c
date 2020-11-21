@@ -14,8 +14,8 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*ps;
-	int		len;
+	unsigned int	len;
+	char			*ps;
 
 	len = ft_strlen(s);
 	ps = (char *)s;
