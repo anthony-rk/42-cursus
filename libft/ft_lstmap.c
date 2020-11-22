@@ -14,29 +14,20 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	// Can just copy the list, then run the function with ft_lstiter
-	// t_list			*lst_temp;
 	t_list			*new_node;
-	// t_list			*old_head;
 	t_list			*new_list;
 
 	if (!lst || !f)
 		return (NULL);
-
-
-	// old_head = lst; // to know where to delete the old list
 	if (!(new_node = ft_lstnew(f(lst->content))))
 	{
-		// need to delete list if it fails
 		ft_lstclear(&lst, del);
 		return (NULL);
 	}
 	new_list = new_node;
 	lst = lst->next;
-
 	while (lst)
 	{
-		// new_node = new_node->next;
 		if (!(new_node = ft_lstnew(f(lst->content))))
 		{
 			ft_lstclear(&lst, del);
@@ -44,7 +35,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 			break ;
 		}
 		lst = lst->next;
-		ft_lstadd_back(&new_list, new_node); // Start this on the second Node
+		ft_lstadd_back(&new_list, new_node);
 	}
 	return (new_list);
 }
