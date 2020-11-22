@@ -18,8 +18,11 @@ char	*ft_strndup(const char *s1, size_t n)
 	int		len;
 	size_t	i;
 
+	if (!s1)
+		return (NULL);
 	len = ft_strlen(s1);
-	out = (char *)malloc(sizeof(char) * (n + 1));
+	if (!(out = (char *)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
 	i = 0;
 	while (i < n)
 	{
