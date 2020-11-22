@@ -14,20 +14,17 @@
 
 static unsigned int			get_num_words(char const *s, char c)
 {
-	unsigned int words;
+	unsigned int	words;
+	unsigned int	i;
 
 	words = 0;
-	while (*s)
+	i = 0;
+	while (s[i])
 	{
-		if (*s == c && *(s + 1) != c && *(s + 1) != '\0')
-		{
+		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
 			words++;
-			s++;
-		}
-		s++;
+		i++;
 	}
-	if (*s == '\0' && *(s - 1) != c)
-		words++;
 	return (words);
 }
 
