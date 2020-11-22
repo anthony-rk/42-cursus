@@ -29,12 +29,52 @@ static char		ft_test_for_ft_strmapi(unsigned int i, char c)
 }
 
 static void 	ft_print_lst(t_list *n) 
-{ 
+{
+	if (n == NULL)
+		printf("Node was NULL\n");
 	while (n != NULL)
 	{ 
 		printf("%s\n", n->content); 
 		n = n->next; 
-	} 
+	}
+}
+
+static void		ft_delnode_content(void *n)
+{
+	n = NULL;
+}
+
+static void		*ft_change_node_content(void *n)
+{
+	unsigned int	len;
+	unsigned int	i;
+
+	i = 0;
+	len = ft_strlen(n);
+	if (len)
+	{
+		while (i < len)
+		{
+			// (char)n[i] += 1;
+			((char *)n)[i] += 1;
+			i++;
+		}
+	}
+	return (0);
+}
+
+static void		*ft_mapelem(char *content)
+{
+	int		i;
+
+	i = 0;
+
+	while (content[i])
+	{
+		content[i] = 'y';
+		i++;
+	}
+	return (content);
 }
 
 int		main(void)
@@ -241,7 +281,7 @@ int		main(void)
 
 // ----------------------------------------------------- //
     // Test for ft_memcpy
-
+	// Test 1
 	char memcpy_src[15] = "Hello there!";
 	char memcpy_dst[15] = "xxxxxxxxxxxx";
 
@@ -255,6 +295,21 @@ int		main(void)
 	
 	// printf("%s\n", ft_memcpy_result);
 	// printf("%s\n", memcpy_result);
+
+	// Test 2 (Inputs are NULL)
+	char memcpy_src2[5] = "NULL";
+	char memcpy_dst2[5] = "NULL";
+
+	char ft_memcpy_src2[5] = "NULL";
+	char ft_memcpy_dst2[5] = "NULL";
+
+	char* memcpy_result2 = memcpy(memcpy_dst2, memcpy_src2, 5);
+    char* ft_memcpy_result2 = ft_memcpy(ft_memcpy_dst2, ft_memcpy_src2, 5);
+
+    // assert(memcpy_result2 == ft_memcpy_result2);
+
+	printf("%s\n", ft_memcpy_result2);
+	printf("%s\n", memcpy_result2);
 
 
 // ----------------------------------------------------- //
@@ -890,54 +945,199 @@ int		main(void)
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
 
-// ----------------------------------------------------- //
-	// Tests for ft_lstnew
-	// Test 1
-	t_list *ft_lstnew_result = ft_lstnew("I am a new list item!");
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstnew
+// 	// Test 1
+// 	t_list *ft_lstnew_result = ft_lstnew("I am a new list item!");
 
-	assert(ft_lstnew_result->next == NULL);
-	assert(0 == ft_strncmp(ft_lstnew_result->content, "I am a new list item!", 21));
+// 	assert(ft_lstnew_result->next == NULL);
+// 	assert(0 == ft_strncmp(ft_lstnew_result->content, "I am a new list item!", 21));
 
-	// printf("%s\n", ft_lstnew_result->content);
+// 	// printf("%s\n", ft_lstnew_result->content);
 	
-	// Test 2
-	t_list *ft_lstnew_result2 = ft_lstnew("127t44ioyo34y\n\n\n\t");
+// 	// Test 2
+// 	t_list *ft_lstnew_result2 = ft_lstnew("127t44ioyo34y\n\n\n\t");
 
-	assert(ft_lstnew_result2->next == NULL);
-	assert(0 == ft_strncmp(ft_lstnew_result2->content, "127t44ioyo34y\n\n\n\t", 17));
+// 	assert(ft_lstnew_result2->next == NULL);
+// 	assert(0 == ft_strncmp(ft_lstnew_result2->content, "127t44ioyo34y\n\n\n\t", 17));
 
-	// Test 3
-	t_list *ft_lstnew_result3 = ft_lstnew(NULL);
+// 	// Test 3
+// 	t_list *ft_lstnew_result3 = ft_lstnew(NULL);
 
-	assert(ft_lstnew_result3->next == NULL);
-	assert(ft_lstnew_result3->content == NULL);
+// 	assert(ft_lstnew_result3->next == NULL);
+// 	assert(ft_lstnew_result3->content == NULL);
 
-// ----------------------------------------------------- //
-	// Tests for ft_lstadd_front
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstadd_front
 
-	// Make a list to check
-	t_list **alist;
-	t_list *new_head = ft_lstnew("0");
-	t_list *ft_lst_item1 = ft_lstnew("1");
-	t_list *ft_lst_item2 = ft_lstnew("2");
-	t_list *ft_lst_item3 = ft_lstnew("3");
+// 	// Make a list to check
+// 	t_list **alist;
+// 	t_list *new_head = ft_lstnew("0");
+// 	t_list *ft_lst_item1 = ft_lstnew("1");
+// 	t_list *ft_lst_item2 = ft_lstnew("2");
+// 	t_list *ft_lst_item3 = ft_lstnew("3");
 
-	ft_lst_item1->next = ft_lst_item2;
-	ft_lst_item2->next = ft_lst_item3;
-	alist = &ft_lst_item1;
+// 	ft_lst_item1->next = ft_lst_item2;
+// 	ft_lst_item2->next = ft_lst_item3;
+// 	alist = &ft_lst_item1;
+
+// 	// printf("Before: \n");
+// 	// ft_print_lst(*alist);
+
+// 	ft_lstadd_front(alist, new_head);
+// 	// printf("After: \n");
+// 	// ft_print_lst(*alist);
+
+// 	assert(0 == ft_strncmp(new_head->content, "0", 1));
+// 	assert(0 == ft_strncmp(new_head->next->content, "1", 1));
+// 	assert(0 == ft_strncmp(new_head->next->next->content, "2", 1));
+// 	assert(0 == ft_strncmp(new_head->next->next->next->content, "3", 1));
+
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstsize
+// 	// Test 1
+// 	int ft_lstsize_result = ft_lstsize(new_head);
+// 	// printf("%d\n", ft_lstsize_result);
+// 	assert(ft_lstsize_result == 4);
+	
+	
+// 	// Test 2
+// 	t_list *ft_lstsize_input = ft_lstnew("Hello");
+// 	int ft_lstsize_result2 = ft_lstsize(ft_lstsize_input);
+
+// 	assert(ft_lstsize_result2 == 1);
+
+
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstlast
+// 	// Test 1
+// 	t_list	*ft_lstlast_result = ft_lstlast(new_head);
+
+// 	assert(0 == ft_strncmp(ft_lstlast_result->content, "3", 1));
+// 	// printf("%s\n", ft_lstlast_result->content);
+
+// 	// Test 2
+// 	t_list *ft_lstlast_input2 = ft_lstnew("");
+// 	t_list	*ft_lstlast_result2 = ft_lstlast(ft_lstlast_input2);
+
+// 	assert(0 == ft_strncmp(ft_lstlast_result2->content, "", 1));
+// 	// printf("%s\n", ft_lstlast_result2->content);
+
+
+
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstadd_back
+// 	// Test 1
+// 	// Make a list to check
+// 	t_list **alist2;
+// 	t_list *new_back = ft_lstnew("Back it up");
+// 	t_list *ft_lstadd_back_item1 = ft_lstnew("1");
+// 	t_list *ft_lstadd_back_item2 = ft_lstnew("2");
+// 	t_list *ft_lstadd_back_item3 = ft_lstnew("3");
+
+// 	ft_lstadd_back_item1->next = ft_lstadd_back_item2;
+// 	ft_lstadd_back_item2->next = ft_lstadd_back_item3;
+// 	alist2 = &ft_lstadd_back_item1;
+
+// 	// printf("Before: \n");
+// 	// ft_print_lst(*alist2);
+
+// 	ft_lstadd_back(alist2, new_back);
+
+// 	// printf("After: \n");
+// 	// ft_print_lst(*alist2);
+
+// 	assert(0 == ft_strncmp(ft_lstadd_back_item1->content, "1", 1));
+// 	assert(0 == ft_strncmp(ft_lstadd_back_item1->next->content, "2", 1));
+// 	assert(0 == ft_strncmp(ft_lstadd_back_item1->next->next->content, "3", 1));
+// 	assert(0 == ft_strncmp(ft_lstadd_back_item1->next->next->next->content, "Back it up", 10));
+
+
+
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstdelone
+
+// 	t_list *ft_lstdelone_item1 = ft_lstnew("1");
+
+// 	// printf("Before: \n");
+// 	// ft_print_lst(ft_lstdelone_item1);
+// 	// ft_lstdelone(ft_lstdelone_item1, ft_delnode_content);
+
+// 	// printf("After: \n");
+// 	// ft_print_lst(ft_lstdelone_item1);
+	
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstclear
+// 	// Test 1
+
+// 	t_list **alist3;
+// 	t_list *ft_lstclear_item1 = ft_lstnew("1");
+// 	t_list *ft_lstclear_item2 = ft_lstnew("2");
+// 	t_list *ft_lstclear_item3 = ft_lstnew("3");
+
+// 	ft_lstclear_item1->next = ft_lstclear_item2;
+// 	ft_lstclear_item2->next = ft_lstclear_item3;
+// 	alist3 = &ft_lstclear_item1;
+
+// 	// printf("Before: \n");
+// 	// ft_print_lst(ft_lstclear_item1);
+	
+// 	ft_lstclear(alist3, ft_delnode_content); // Seg fault
+	
+// 	// printf("After: \n");
+// 	// ft_print_lst(ft_lstclear_item1);
+
+// 	// assert(ft_lstclear_item1->next == NULL);
+// 	// assert(ft_lstclear_item2->next == NULL);
+// 	// assert(ft_lstclear_item3->next == NULL);
+
+
+	
+// // ----------------------------------------------------- //
+// 	// Tests for ft_lstiter
+// 	// Test 1
+	// t_list *ft_lstiter_item1 = ft_lstnew("1a");
+	// t_list *ft_lstiter_item2 = ft_lstnew("2a");
+	// t_list *ft_lstiter_item3 = ft_lstnew("3a");
+
+	// char[10] ft_lstiter_item1_new = "Test 1";
+	// char[10] ft_lstiter_item2_new = "Test 2";
+	// char[10] ft_lstiter_item3_new = "Test 3";
+
+	// ft_lstiter_item1->next = ft_lstiter_item2;
+	// ft_lstiter_item2->next = ft_lstiter_item3;
 
 	// printf("Before: \n");
-	// ft_print_lst(*alist);
+	// ft_print_lst(ft_lstiter_item1);
 
-	ft_lstadd_front(alist, new_head);
+	// // ft_lstiter(ft_lstiter_item1, ft_change_node_content);
+
 	// printf("After: \n");
-	// ft_print_lst(*alist);
+	// ft_print_lst(ft_lstiter_item1);
 
-	assert(0 == ft_strncmp(new_head->content, "0", 1));
-	assert(0 == ft_strncmp(new_head->next->content, "1", 1));
-	assert(0 == ft_strncmp(new_head->next->next->content, "2", 1));
-	assert(0 == ft_strncmp(new_head->next->next->next->content, "3", 1));
 
+// ----------------------------------------------------- //
+	// Tests for ft_lstmap
+	// Test 1
+	t_list *ft_lstmap_item1 = ft_lstnew("111");
+	// t_list *ft_lstmap_item2 = ft_lstnew("222");
+	// t_list *ft_lstmap_item3 = ft_lstnew("333");
+
+	// char[10] ft_lstmap_item1_new = "Test 1";
+	// char[10] ft_lstmap_item2_new = "Test 2";
+	// char[10] ft_lstmap_item2_new = "Test 3";
+
+	// ft_lstmap_item1->next = ft_lstmap_item2;
+	// ft_lstmap_item2->next = ft_lstmap_item3;
+
+	// printf("Before: \n");
+	// ft_print_lst(ft_lstmap_item1);
+
+	// Want to change the char by +1 for each in the string
+	ft_lstmap(ft_lstmap_item1, (void *)&ft_mapelem, (void *)&ft_delnode_content);
+
+	// printf("After: \n");
+	// ft_print_lst(ft_lstmap_item1);
 
 
 
