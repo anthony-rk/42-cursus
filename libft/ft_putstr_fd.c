@@ -18,6 +18,8 @@ void	ft_putstr_fd(char *s, int fd)
 	unsigned int	i;
 	const void		*ptr;
 
+	if (!s)
+		return ;
 	ptr = s;
 	len = ft_strlen(s);
 	i = 0;
