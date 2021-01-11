@@ -11,20 +11,20 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-static char					*ft_itoa_zero(void)
+static char	*ft_itoa_zero(void)
 {
 	char	*out;
 
-	if (!(out = (char *)malloc(sizeof(char) * (2))))
+	out = (char *)malloc(sizeof(char) * (2));
+	if (!out)
 		return (NULL);
 	out[0] = '0';
 	out[1] = '\0';
 	return (out);
 }
 
-static unsigned int			ft_num_len(int n)
+static unsigned int	ft_num_len(int n)
 {
 	unsigned int	len;
 
@@ -37,19 +37,23 @@ static unsigned int			ft_num_len(int n)
 	return (len);
 }
 
-char						*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char			*out;
 	unsigned int	len;
 	unsigned int	n_temp;
 
-	n_temp = (n < 0 ? -n : n);
+	if (n_temp < 0)
+		n_temp = -n;
+	else
+		n_temp = n;
 	len = ft_num_len(n_temp);
 	if (n < 0)
 		len++;
 	if (n == 0)
 		return (ft_itoa_zero());
-	if (!(out = (char *)malloc(sizeof(char) * (len + 1))))
+	out = (char *)malloc(sizeof(char) * (len + 1));
+	if (!out)
 		return (NULL);
 	out[len--] = '\0';
 	while (n_temp)
