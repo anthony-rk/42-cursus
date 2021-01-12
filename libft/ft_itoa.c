@@ -43,7 +43,7 @@ char	*ft_itoa(int n)
 	unsigned int	len;
 	unsigned int	n_temp;
 
-	if (n_temp < 0)
+	if (n < 0)
 		n_temp = -n;
 	else
 		n_temp = n;
