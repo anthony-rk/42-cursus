@@ -10,4 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+
+// Need the following for read, malloc, free
+# include <stdlib.h> // for malloc and free
+# include <unistd.h> // for read
+
 int	get_next_line(int fd, char **line);
+
+#endif
