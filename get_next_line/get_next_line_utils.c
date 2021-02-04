@@ -41,3 +41,103 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		i++;
 	return (i);
 }
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char			*out;
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	out_len;
+
+	if (!s1 || !s2)
+		return (NULL);
+	out_len = ft_strlen(s1) + ft_strlen(s2);
+	out = (char *)malloc(sizeof(char) * (out_len + 1));
+	if (!out)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		out[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		out[i + j] = s2[j];
+		j++;
+	}
+	out[i + j] = '\0';
+	return (out);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	unsigned int	len;
+	unsigned int	i;
+	char			*out;
+
+	len = ft_strlen(s1);
+	out = (char *)malloc(sizeof(char) * (len + 1));
+	if (!out)
+		return (NULL);
+	i = 0;
+	while (i < len + 1)
+	{
+		out[i] = s1[i];
+		i++;
+	}
+	return (out);
+}
+
+char	*ft_strrchr(const char *s, int c)
+{
+	unsigned int	len;
+	char			*ps;
+
+	len = ft_strlen(s);
+	ps = (char *)s;
+	len++;
+	while (len--)
+	{
+		if (ps[len] == (char)c)
+			return ((char *)&(s)[len]);
+	}
+	return (0);
+}
+
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
+{
+	char	*subs;
+	size_t	i;
+
+	if (s == NULL)
+		return (NULL);
+	subs = ft_strnew(len);
+	if (subs == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		subs[i] = s[start + i];
+		i++;
+	}
+	return (subs);
+}
+
+char	*ft_strnew(size_t size)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	str = (char *)malloc(sizeof(*str) * size + 1);
+	if (str == NULL)
+		return (NULL);
+	while (i <= size)
+	{
+		str[i] = '\0';
+		i++;
+	}
+	return (str);
+}

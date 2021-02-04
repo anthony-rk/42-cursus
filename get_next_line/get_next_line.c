@@ -10,63 +10,103 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-// Start at 330pm Friday
-
-// #include <stdlib.h> 
-// #include <unistd.h>
 #include <stdio.h>  
 #include <fcntl.h> 
 
 #include "get_next_line.h"
 
-// #define BUFFER_SIZE 100
-
-// FIND LENGTH OF NEXT LINE
-static int	ft_fdstrlen(char *buf)
+static int	ft_append_line(char *s, char **line)
 {
 	int		len;
+	char	*tmp;
 
 	len = 0;
-	printf("Line from ft_fdstrlen is = %s\n", buf);
-	while (buf[len] != '\n' && buf[len] != '\0' && buf[len] != EOF)
-	{
+	while (s[len] != '\n' && s[len] != '\0')
 		len++;
-		printf("Len from ft_fdstrlen is: %d\n", len);
+	if (s[len] == '\n')
+	{
+		*line = ft_strsub(s, 0, len); // Need to change this 0 here
+		tmp = ft_strdup(&((s)[len + 1]));
+		// tmp = ft_strdup(s);
+		// free(s);
+		s = tmp; // this move the s over past the first line we found, so we can use it on the next iteration. Need static
 	}
-	return (len + 1);
+	else // think this is for the first iteration where the buf does not read until a newline
+	{
+		*line = ft_strdup(s);
+		// free(s);
+	}
+	return (1);
+}
+
+static int	ft_output(char *s, char **line, int ret)
+{
+	if (ret < 0)
+		return (-1);
+	else if (ret == 0)
+		return (0);
+	else
+		return (ft_append_line(s, line)); // case here where it return a line
+		// return (1);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	char	*new_line;
-	int		next_line_len;
-	int		num_line;
-	char	buf[BUFFER_SIZE + 1];
+	int			ret;
+	char		*tmp;
+	
+	char		buf[BUFFER_SIZE + 1];
+	static char	*static_reader;
 
-	if (fd < 0)
+	// char		*static_reader;
+	int			count;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line) // Error checking the input
 		return (-1);
 
-	// Read the entire buf here
-	read(fd, buf, BUFFER_SIZE);
+	// Basic idea is to read the size of the buf, append that string to the static_reader static var, and to 
+	// keep looping until we hit a new line, or EOF then return 1, 0, or -1
 
-	num_line = 0;
-
-	next_line_len = ft_fdstrlen(buf);
-
-	printf("New_Line length = %d\n", next_line_len);
-
-	if (next_line_len < BUFFER_SIZE)
+	// while ((ret = read(fd, buf, BUFFER_SIZE)) >= 0 && ft_has_nl(buf) != 1) // where do I check for the newline?
+	count = 0;
+	// static_reader = NULL;
+	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0) 
 	{
-		if (!(new_line = (char *)malloc((next_line_len + 1) * sizeof(char))))
-			return (-1);
-		ft_strlcpy(new_line, buf, next_line_len);
+		printf("Number of Bytes read to buf: %d\n", ret);
 
-		line = &new_line;
-
-		printf("new_line: %s\n", new_line);
-		printf("line: %s\n", *line);
-		// free(new_line);
+		buf[ret] = '\0'; // Null terminate the buf string
+	
+		if (!static_reader)	// copy to the empty string on the first pass
+			static_reader = ft_strdup(buf);
+		else
+		{
+			tmp = ft_strjoin(static_reader, buf);
+			if (!tmp)
+				return (-1); // error handling
+			printf("static_reader: \"%s\"\n", static_reader);
+			// free(static_reader); // cannot free a static variable, as it is in the heap and not the stack, not done with malloc
+			printf("static_reader: \"%s\"\n", static_reader);
+			// static_reader = ft_strdup(tmp);
+			static_reader = tmp;
+			printf("static_reader: \"%s\"\n", static_reader);
+			free(tmp);
+		}
+		if (ft_strrchr(static_reader, '\n'))
+		{
+			printf("\n--NEWLINE FOUND--\n");
+			break ;
+		}
+		count++;
+			
 	}
-	return (1);
+	printf("__Buf Read Loops: %d\n", count + 1);
+	// printf("static_reader: \"%s\"\n", static_reader);
+	
+	// *line = static_reader;
+
+	// printf("line: \"%s\"\n", *line);
+	// printf("static_reader: \"%s\"\n", static_reader);
+
+	return (ft_output(static_reader, line, ret));
+
 }
