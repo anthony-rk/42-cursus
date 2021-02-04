@@ -6,7 +6,7 @@
 /*   By: akowalsk <akowalsk@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 17:27:12 by akowalsk          #+#    #+#             */
-/*   Updated: 2021/02/01 17:27:29 by akowalsk         ###   ########.fr       */
+/*   Updated: 2021/02/03 22:44:17 by akowalsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 #include <sys/types.h>
 #include "get_next_line.h"
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
-	int fd;
-	int ret;
-	int line;
-	char *buff;
+	int		fd;
+	int		ret;
+	int		line;
+	char	*buff;
 
 	line = 0;
-
 	if (argc == 2)
 	{
 		fd = open(argv[1], O_RDONLY);

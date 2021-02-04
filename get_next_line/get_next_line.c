@@ -6,7 +6,7 @@
 /*   By: akowalsk <akowalsk@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:17:11 by akowalsk          #+#    #+#             */
-/*   Updated: 2021/01/27 11:17:26 by akowalsk         ###   ########.fr       */
+/*   Updated: 2021/02/03 22:45:41 by akowalsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "get_next_line.h"
 
-static int	ft_append_line(char *s, char **line)
+static char	*ft_append_line(char *s, char **line)
 {
 	int		len;
 	char	*tmp;
@@ -25,30 +25,50 @@ static int	ft_append_line(char *s, char **line)
 		len++;
 	if (s[len] == '\n')
 	{
-		*line = ft_strsub(s, 0, len); // Need to change this 0 here
-		tmp = ft_strdup(&((s)[len + 1]));
+		// printf("__static_reader inside ft_append_line(): %s\n", s);
+
+		*line = ft_strsub(s, 0, len); // copy to line the string until the newline - good
+
+		// printf("__line inside ft_append_line(): %s\n", *line);
+		tmp = ft_strdup(&((s)[len + 1])); // sets tmp to the characters after the newline, so the extra stuff we got on read()
+		// printf("__tmp inside ft_append_line(): %s\n", tmp);
 		// tmp = ft_strdup(s);
 		// free(s);
-		s = tmp; // this move the s over past the first line we found, so we can use it on the next iteration. Need static
+		s = tmp; // this move the s over past the first line we found, so we can use it on the next iteration. This is why we need static
+		// printf("__static_reader inside ft_append_line(): %s\n", s);
 	}
-	else // think this is for the first iteration where the buf does not read until a newline
+	else // this is for the first and last iteration where the buf does not read until a newline
 	{
+		// printf("WE ARE IN THE ELSE STATEMENT NOW BOYS\n");
 		*line = ft_strdup(s);
-		// free(s);
+		free(s); // free s once the string has been fully read
 	}
-	return (1);
+	// return (1);
+	return (s);
 }
 
-static int	ft_output(char *s, char **line, int ret)
-{
-	if (ret < 0)
-		return (-1);
-	else if (ret == 0)
-		return (0);
-	else
-		return (ft_append_line(s, line)); // case here where it return a line
-		// return (1);
-}
+// static int ft_is_eof(char *s, char **line)
+// {
+// 	if (s[0] == '\0')
+// 	{
+// 		*line = malloc(sizeof(char) * 1);
+// 		if (!(*line))
+// 			return (-1);
+// 		(*line)[0] = '\0';
+// 	}
+// 	return (0);
+// }
+
+// static int	ft_output(char *s, char **line, int ret)
+// {
+// 	if (ret < 0)
+// 		return (-1);
+// 	else if (ret == 0)
+// 		return (0);
+// 	else
+// 		return (ft_append_line(s, line)); // case here where it return a line
+// 		// return (1);
+// }
 
 int		get_next_line(int fd, char **line)
 {
@@ -58,7 +78,6 @@ int		get_next_line(int fd, char **line)
 	char		buf[BUFFER_SIZE + 1];
 	static char	*static_reader;
 
-	// char		*static_reader;
 	int			count;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || !line) // Error checking the input
@@ -67,14 +86,20 @@ int		get_next_line(int fd, char **line)
 	// Basic idea is to read the size of the buf, append that string to the static_reader static var, and to 
 	// keep looping until we hit a new line, or EOF then return 1, 0, or -1
 
-	// while ((ret = read(fd, buf, BUFFER_SIZE)) >= 0 && ft_has_nl(buf) != 1) // where do I check for the newline?
-	count = 0;
-	// static_reader = NULL;
-	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0) 
-	{
-		printf("Number of Bytes read to buf: %d\n", ret);
+	// printf("\n-------------------------\n");
+	// if (static_reader)
+	// 	printf("__static_reader before read() loop: %s\n", static_reader);
+	
+	// Need a check for if we have read() everything, 
 
-		buf[ret] = '\0'; // Null terminate the buf string
+
+	// read() to the buf until there is a newline, store that in the static_reader
+	count = 0;
+	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
+	{
+		// printf("Number of Bytes read to buf: %d\n", ret);
+
+		buf[ret] = '\0';
 	
 		if (!static_reader)	// copy to the empty string on the first pass
 			static_reader = ft_strdup(buf);
@@ -83,30 +108,42 @@ int		get_next_line(int fd, char **line)
 			tmp = ft_strjoin(static_reader, buf);
 			if (!tmp)
 				return (-1); // error handling
-			printf("static_reader: \"%s\"\n", static_reader);
-			// free(static_reader); // cannot free a static variable, as it is in the heap and not the stack, not done with malloc
-			printf("static_reader: \"%s\"\n", static_reader);
-			// static_reader = ft_strdup(tmp);
-			static_reader = tmp;
-			printf("static_reader: \"%s\"\n", static_reader);
+			static_reader = ft_strdup(tmp);
+			// printf("__static_reader in read() while loop: \"%s\"\n", static_reader);
 			free(tmp);
 		}
-		if (ft_strrchr(static_reader, '\n'))
+		if (ft_strrchr(static_reader, '\n')) // loops for a newline
 		{
-			printf("\n--NEWLINE FOUND--\n");
+			// printf("--NEWLINE FOUND--\n");
 			break ;
 		}
 		count++;
 			
 	}
-	printf("__Buf Read Loops: %d\n", count + 1);
-	// printf("static_reader: \"%s\"\n", static_reader);
-	
-	// *line = static_reader;
+	// If the entire file has been read into the static_reader var, then we still need to output the 
+		// line, maybe check if there is a newline?
 
-	// printf("line: \"%s\"\n", *line);
-	// printf("static_reader: \"%s\"\n", static_reader);
+	if (ret < 0)
+		return (-1);
+	else if (ret == 0)
+	{
+		// Check if there is still a new line or still len, so more lines to read
+		if (ft_strrchr(static_reader, '\n') || (ft_strlen(static_reader) > 0))
+		{	
+			static_reader = ft_append_line(static_reader, line);
+			return (1);
+		}
+		*line = malloc(sizeof(char) * 1);
+		if (!(*line))
+			return (-1);
+		(*line)[0] = '\0';
 
-	return (ft_output(static_reader, line, ret));
+		return (0);
+	}
+	else
+	{
+		static_reader = ft_append_line(static_reader, line);
+		return (1);
+	}
 
 }
