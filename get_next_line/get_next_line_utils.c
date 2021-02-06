@@ -6,7 +6,7 @@
 /*   By: akowalsk <akowalsk@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:16:19 by akowalsk          #+#    #+#             */
-/*   Updated: 2021/01/27 11:16:32 by akowalsk         ###   ########.fr       */
+/*   Updated: 2021/02/05 17:58:42 by akowalsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,6 @@ size_t	ft_strlen(const char *str)
 	while (str[len])
 		len++;
 	return (len);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	unsigned int	i;
-
-	if (!dst && !src)
-		return (0);
-	if (dstsize == 0)
-		return (ft_strlen(src));
-	i = 0;
-	while (src[i] && i + 1 < dstsize)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	while (src[i] != '\0')
-		i++;
-	return (i);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -106,38 +86,25 @@ char	*ft_strrchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*subs;
-	size_t	i;
-
-	if (s == NULL)
-		return (NULL);
-	subs = ft_strnew(len);
-	if (subs == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		subs[i] = s[start + i];
-		i++;
-	}
-	return (subs);
-}
-
-char	*ft_strnew(size_t size)
-{
-	char	*str;
-	size_t	i;
+	unsigned int	i;
+	char			*res;
 
 	i = 0;
-	str = (char *)malloc(sizeof(*str) * size + 1);
-	if (str == NULL)
+	if (!s)
 		return (NULL);
-	while (i <= size)
+	if (!(res = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	res[0] = '\0';
+	if (start > ft_strlen(s))
+		return (res);
+	while (s[start] && i < len)
 	{
-		str[i] = '\0';
+		res[i] = s[start];
 		i++;
+		start++;
 	}
-	return (str);
+	res[i] = '\0';
+	return (res);
 }
