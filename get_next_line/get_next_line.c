@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <fcntl.h>
-
 #include "get_next_line.h"
 
 static int	ft_append_line(char **s, char **line)
