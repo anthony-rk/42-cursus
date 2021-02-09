@@ -31,7 +31,10 @@ static int	ft_append_line(char **s, char **line)
 	{
 		*line = ft_strdup(*s);
 		free(*s);
-		return (0);
+		*s = malloc(sizeof(char) * 1);
+		if (!(*s))
+			return (-1);
+		(*s)[0] = '\0';
 	}
 	return (1);
 }
@@ -42,7 +45,6 @@ static int	ft_final_read(char **line)
 	if (!(*line))
 		return (-1);
 	(*line)[0] = '\0';
-
 	return (0);
 }
 
@@ -80,6 +82,11 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	else if (ret == 0 && (static_reader == NULL))
 		return (ft_final_read(line));
+	else if (ret == 0 && (static_reader[0] == '\0'))
+	{
+		free(static_reader);
+		return (ft_final_read(line));
+	}
 	else
 		return (ft_append_line(&static_reader, line));
 }
