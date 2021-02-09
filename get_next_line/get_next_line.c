@@ -45,6 +45,7 @@ static int	ft_final_read(char **line)
 	if (!(*line))
 		return (-1);
 	(*line)[0] = '\0';
+
 	return (0);
 }
 
