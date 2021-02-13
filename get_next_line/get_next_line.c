@@ -23,7 +23,6 @@ static int	ft_append_line(char **s, char **line)
 	*line = ft_substr(*s, 0, len);
 	tmp = ft_strdup(&(*s)[len + 1]);
 	free(*s);
-	*s = NULL; // 
 	*s = tmp;
 
 	return (1);
