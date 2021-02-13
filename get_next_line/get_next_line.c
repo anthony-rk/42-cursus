@@ -20,22 +20,11 @@ static int	ft_append_line(char **s, char **line)
 	len = 0;
 	while ((*s)[len] != '\n' && (*s)[len] != '\0')
 		len++;
-	if ((*s)[len] == '\n')
-	{
-		*line = ft_substr(*s, 0, len);
-		tmp = ft_strdup(&((*s)[len + 1]));
-		free(*s);
-		*s = tmp;
-	}
-	else
-	{
-		*line = ft_strdup(*s);
-		free(*s);
-		*s = malloc(sizeof(char) * 1);
-		if (!(*s))
-			return (-1);
-		(*s)[0] = '\0';
-	}
+	*line = ft_substr(*s, 0, len);
+	tmp = ft_strdup(&(*s)[len + 1]);
+	free(*s);
+	*s = tmp;
+
 	return (1);
 }
 
@@ -43,7 +32,6 @@ static int	ft_final_read(char **s, char **line)
 {
 	if (*s == NULL)
 	{
-		free(*s);
 		*line = malloc(sizeof(char) * 1);
 		if (!(*line))
 			return (-1);
@@ -55,33 +43,31 @@ static int	ft_final_read(char **s, char **line)
 		if (!(*line))
 			return (-1);
 		(*line)[0] = '\0';
+		free(*s);
 	}
-	else if (!ft_strrchr(*s, '\n'))
+	else
 	{
 		*line = ft_strdup(*s);
 		free(*s);
-		*s = malloc(sizeof(char) * 1);
-		if (!(*s))
-			return (-1);
-		(*s)[0] = '\0';
 	}
 	return (0);
 }
 
-static char	*ft_read_til_nl(char *s, char *buf, int ret)
+static char	*ft_read_til_nl(char **s, char *buf, int ret)
 {
 	char		*tmp;
 
 	buf[ret] = '\0';
-	if (!s)
-		s = ft_strdup(buf);
+	if (!*s)
+		*s = ft_strdup(buf);
 	else
 	{
-		tmp = ft_strjoin(s, buf);
-		s = ft_strdup(tmp);
+		tmp = ft_strjoin(*s, buf);
+		free(*s);
+		*s = ft_strdup(tmp);
 		free(tmp);
 	}
-	return (s);
+	return (*s);
 }
 
 int		get_next_line(int fd, char **line)
@@ -94,14 +80,13 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
-		static_reader = ft_read_til_nl(static_reader, buf, ret);
+		static_reader = ft_read_til_nl(&static_reader, buf, ret);
 		if (ft_strrchr(static_reader, '\n'))
 			break ;
 	}
 	if (ret < 0)
 		return (-1);
-	else if (ret == 0 && ((static_reader == NULL) || (static_reader[0] == '\0') 
-			|| (!ft_strrchr(static_reader, '\n'))))
+	else if ((ret == 0 && !static_reader) || (ret == 0 && !(ft_strrchr(static_reader, '\n'))))
 		return (ft_final_read(&static_reader, line));
 	else
 		return (ft_append_line(&static_reader, line));
