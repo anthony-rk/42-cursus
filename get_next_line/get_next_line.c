@@ -23,6 +23,7 @@ static int	ft_append_line(char **s, char **line)
 	*line = ft_substr(*s, 0, len);
 	tmp = ft_strdup(&(*s)[len + 1]);
 	free(*s);
+	*s = NULL; // 
 	*s = tmp;
 
 	return (1);
@@ -44,11 +45,13 @@ static int	ft_final_read(char **s, char **line)
 			return (-1);
 		(*line)[0] = '\0';
 		free(*s);
+		*s = NULL;
 	}
 	else
 	{
 		*line = ft_strdup(*s);
 		free(*s);
+		*s = NULL;
 	}
 	return (0);
 }
@@ -66,6 +69,7 @@ static char	*ft_read_til_nl(char **s, char *buf, int ret)
 		free(*s);
 		*s = ft_strdup(tmp);
 		free(tmp);
+		tmp = NULL;
 	}
 	return (*s);
 }
