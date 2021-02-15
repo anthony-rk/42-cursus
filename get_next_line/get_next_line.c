@@ -24,7 +24,6 @@ static int	ft_append_line(char **s, char **line)
 	tmp = ft_strdup(&(*s)[len + 1]);
 	free(*s);
 	*s = tmp;
-
 	return (1);
 }
 
