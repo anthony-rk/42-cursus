@@ -23,3 +23,5 @@ $ cd folder_where_you_downloaded
 $ gcc -Wall -Wextra -Werror -D BUFFER_SIZE=32 get_next_line.c get_next_line_utils.c main.c -I. -o gnl_tester
 $ ./gnl_tester
 ```
+
+![42 Grade](./images/gnl_grade.png)
