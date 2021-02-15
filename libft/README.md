@@ -3,7 +3,7 @@
 >Summary: The aim of this project is to code a C library regrouping usual functions that
 >you’ll be allowed to use in all your other projects.
 
-##The goal of this project was to rewrite the following functions for use on future projects at 42.
+## The goal of this project was to rewrite the following functions for use on future projects at 42.
 ### libc Functions
 	- atoi()
 	- bzero()
