@@ -23,7 +23,7 @@ SRCS =	ft_strlen.c ft_strncmp.c ft_atoi.c ft_isalpha.c ft_calloc.c\
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c\
 			ft_bubble_sort.c ft_insertion_sort.c ft_merge_sort.c ft_hextoa.c\
 			ft_hextoa_p.c ft_itoa_base.c ft_itoa_unsigned.c ft_ltoa_base.c\
-			ft_nbrlen.c ft_putchar.c ft_putnchar.c ft_strnew.c ft_strrev.c
+			ft_nbrlen.c ft_putchar.c ft_putnchar.c ft_strnew.c ft_strrev.c ft_binary_search.c\
 
 OBJECTS = $(SRCS:.c=.o)
 

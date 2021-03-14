@@ -68,18 +68,19 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // Additionally added functions below
-char				*ft_itoa_base(int n, int base, int uppercase);
-char				*ft_strrev(char *str);
-int					ft_nbrlen(long long n, int base);
-char				*ft_hextoa(unsigned long long n);
-char				*ft_hextoa_p(unsigned long long n);
-char				*ft_ltoa_base(long n, int base, int uppercase);
-char				*ft_itoa_unsigned(long int n);
-void				ft_putchar(char c);
-void				ft_putnchar(char c, int n);
-void				ft_insertion_sort(int arr[], int n);
-void				ft_bubble_sort(int arr[], int n);
-void				ft_merge_sort(int arr[], int left, int right);
+char		*ft_itoa_base(int n, int base, int uppercase);
+char		*ft_strrev(char *str);
+int			ft_nbrlen(long long n, int base);
+char		*ft_hextoa(unsigned long long n);
+char		*ft_hextoa_p(unsigned long long n);
+char		*ft_ltoa_base(long n, int base, int uppercase);
+char		*ft_itoa_unsigned(long int n);
+void		ft_putchar(char c);
+void		ft_putnchar(char c, int n);
+void		ft_insertion_sort(int arr[], int n);
+void		ft_bubble_sort(int arr[], int n);
+void		ft_merge_sort(int arr[], int left, int right);
+int			ft_binary_search(int arr[], int lft, int rt, int x);
 
 
 #endif
