@@ -17,12 +17,12 @@ The goal of this project was to create a Docker image/container that works as a 
    - `docker container run --name my_container -it -p 8080:80 -p 443:443 ft_server`
 
 ### Toggling Autoindex
- - To set Autoindex back to ON, run the following command:
+ - To set Autoindex to OFF, run the following command:
      - `docker exec -d my_container /autoindex_off.sh`
  - To set Autoindex back to ON, run the following command:
      - `docker exec -d my_container /autoindex_off.sh`
 
 ### Stopping the Container
  - To stop the container, run the following command with the correct container id:
-   - `docker stop ${container_id}`
+   - `docker stop your_container_id`
 
